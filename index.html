@@ -1,0 +1,318 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Plant Calculator</title>
+<meta name="description" content="">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+ <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans|Roboto" rel="stylesheet"> <style>
+label{
+  font-family: "Open Sans", arial, sans-serif;
+  font-family: "Roboto", arial, sans-serif;
+}
+html{
+  width:100%;
+  height: 100%;
+}
+
+body{
+  width:100%;
+  height: 100%;
+
+
+}
+
+h1{
+
+  font-family: "Droid Serif";
+  font-weight: 600;
+}
+
+form {
+
+}
+
+.form-control{
+  border-radius: 0;
+  background: #fff;
+}
+select {
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+}
+
+/* bootstrap normally does this part for you, but for some reason it's not being applied */
+select {
+  border: 1px solid #999;
+  border-radius: 0px;
+  padding:8px;
+}
+
+
+/* only apply this to firefox: */
+
+
+/* Safari selects are sort of ugly too.  Unfortunately this applies to both Safari *and* Chrome */
+@media (-webkit-min-device-pixel-ratio: 0) {
+  select {
+    -webkit-appearance: none;
+    background-image: $select-arrow !important;
+    background-position: right 8px center;
+    background-repeat: no-repeat;
+    padding-right: 20px;
+  }
+}
+
+
+.wrapper {
+  margin-top: 100px;
+}
+
+.formWrap {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  border: none;
+  padding: 20px 30px;
+  margin: 0 auto;
+  background: url("img/background.png");
+
+
+}
+
+.input-group-addon{
+  border-radius: 0;
+  background: rgba(48,54,103,0.8);
+  color: #FFF;
+}
+
+.title {
+  display:block;
+  background: #303667;
+  background: linear-gradient(to left top, #ccc, #303667);
+  color: #fff;
+  padding:30px 20px;
+  margin:0;
+  border-top: 4px solid #303667;
+  border-top: 0px solid #fff;
+  width:100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+}
+.calcForm {
+
+  padding: 0px;
+  border: 4px solid #303667;
+  border: 0px solid #fff;
+  border-radius: 20px;
+  /*
+  -webkit-border-image: url(img/border.png) 30 round; /* Safari 3.1-5 */
+  /*  -o-border-image: url(img/border.png)  30 round; /* Opera 11-12.1 */
+  /*  border-image: url(img/border.png)  30 round;
+*/
+}
+/*
+#plants {
+  background: rgba(152, 255, 152, 0.5);
+}
+
+#button{
+  display:block;
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border: 2px solid #303667;
+  text-decoration: none;
+  color:#242A60;
+}
+
+
+
+#button a{
+  text-decoration: none;
+  color:#242A60;
+}
+
+#button:hover{
+  color:#fff;
+  background: #242A60;
+}
+
+*/
+</style>
+
+  <script src="js/vendor/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+ <script type="text/javascript">
+
+ /*********************************************
+ FUNCTIONS
+ **********************************************/
+
+    function calculateSquareFootage() {
+        if($("#length").val() != '' && $("#width").val() != '' && !isNaN($("#length").val()) && !isNaN($("#width").val())) {
+            $("#sqfeet").val(Math.abs($("#length").val() * $("#width").val()));
+        } else {
+            $("#sqfeet").val('');
+        }
+    }
+    function calculateNumberOfPlants() {
+        if($("#sqfeet").val() != '' &&
+        !isNaN($("#sqfeet").val()) &&
+        $("#spc").val() != '' && !isNaN($("#spc").val())) {
+            var spacing = Math.abs($("#spc").val());
+            var sqFeet = Math.abs($("#sqfeet").val());
+            switch($("#units option:selected").val()) {
+
+                case 'in':
+                    $("#plants").val(Math.round((144 / (spacing * spacing * 0.866)) * sqFeet));
+                    break;
+                case 'ft':
+                    spacing = spacing * 12;
+                    $("#plants").val(Math.round((144 / (spacing * spacing * 0.866)) * sqFeet));
+                    break;
+                case 'cm':
+                    spacing = spacing / 2.54;
+                    $("#plants").val(Math.round((144 / (spacing * spacing * 0.866)) * sqFeet));
+                    break;
+                case 'mt':
+                    spacing = spacing * 100 / 2.54;
+                    $("#plants").val(Math.round((144 / (spacing * spacing * 0.866)) * sqFeet));
+                    break;
+            }
+        } else {
+            $("#plants").val('');
+        }
+    }
+
+    function clearFields() {
+        document.getElementById("length").value=""
+        document.getElementById("width").value=""
+        document.getElementById("sqfeet").value=""
+        document.getElementById("spc").value=""
+        document.getElementById("plants").value=""
+    } //clear inputs
+
+    /*********************************************
+    LOAD DOCUMENT
+    **********************************************/
+
+    $(document).ready(function() {
+        $("#length, #width, #spc").keyup(function() {
+            calculateSquareFootage();
+            calculateNumberOfPlants();
+        });
+
+        $("#units").change(function() {
+            calculateSquareFootage();
+            calculateNumberOfPlants();
+        });
+
+    }); //end ready
+  </script>
+
+    <div class="col-md-12 offset-md-0 col-lg-12 offset-lg-0 wrapper">
+      <form class="col-xs-10 col-xs-offset-1 col-sm-6
+      col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 offset-lg-6 calcForm"
+            style="background:white; "
+            action="plant_calculator"
+            name="plantcalc" id="plantcalc" method="post">
+        <h1 class="text-center title">Plant Calculator</h1>
+          <div class="formWrap">
+            <p>Determine the amount of square feet in the area to be planted. Next, enter the average distance of spacing between plants.
+              Be sure to select your unit of measure</p>
+
+              <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-4 form-group">
+                  <label class="control-label" for="Length">Length</label>
+                  <div class="input-group">
+                    <input type="text" name="length" id="length" placeholder=""
+                           style="" class="form-control" aria-describedby="Length"/>
+                    <span class="input-group-addon">ft</span>
+
+                  </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-4 col-md-4 form-group">
+                  <label class="control-label" for="Width">Width</label>
+                  <div class="input-group">
+                    <input type="text" name="width" id="width" placeholder=""
+                           style="" class="form-control" aria-describedby="Width"/>
+                    <span class="input-group-addon">ft</span>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4 col-md-4 form-group">
+                  <label class="control-label" for="Area">Area</label>
+                  <div class="input-group">
+                    <input style="background: #fff;" type="text" name="sqfeet" id="sqfeet"
+                           placeholder="" class="form-control" aria-describedby="Area" readonly />
+                    <span class="input-group-addon">ft<sup>2</sup></span>
+                  </div>
+                </div>
+
+                </div><!--end row-->
+
+              <div class="row">
+                <div class="col-xs-6 col-sm-4 col-md-4 form-group">
+                  <label class="control-label" for="Plant Spacing">Plant Spacing</label>
+                  <div class="col-xs-12 input-group">
+                    <input type="text" name="spc" id="spc"
+                    placeholder="" class="form-control"
+                          aria-describedby="Average Plant Spacing"/>
+      <!--
+                          <span id="ut" class="input-group-addon">
+      -->
+                        </span>
+
+                  </div>
+                </div>
+
+              <div class="col-xs-6 col-sm-4 col-md-4 form-group">
+                <label class="control-label" for="Units">Select Units</label>
+                  <div class="col-xs-12 input-group">
+                <select  style="" class="form-control" id="units">
+                  <option value="" disabled selected></option>
+                  <option value="in">Inches</option>
+                  <option value="cm">Centimeter</option>
+                  <option value="ft">Feet</option>
+                  <option value="mt">Meters</option>
+                </select>
+                <!--<span style="background:#fff; border-left: none;" class="input-group-addon">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+              </span>-->
+              </div>
+              </div>
+
+
+               <div class="col-xs-12 col-sm-4 col-md-4 form-group">
+                 <label class="control-label" for="Plant Number">Total Plants:</label>
+                  <input style="background: rgba(152, 255, 152, 0.5);" type="text" name="plants" id="plants"
+                      class="form-control" placeholder="" readonly />
+              </div>
+          </div>
+
+             <!--<a href="javascript:clearFields()"
+              id="button">Clear</a>-->
+
+        </div> <!--end formWrap-->
+      </form> <!-- end form-->
+    </div> <!-- wrapper -->
+   </body>
+  </html>
